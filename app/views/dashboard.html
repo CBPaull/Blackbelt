@@ -1,0 +1,48 @@
+<html>
+<head>
+	<title>Pokes</title>
+</head>
+<body>
+	<h1>Welcome, {{session['alias']}}, (<a href='/users/logoff'> Log Off </a> )
+	<h2>{{ usercount }} people poked you!</h2>
+	{% for name in poked %}
+	<p>{{name['poker_name']}} poked you {{name['pokecount']}} times</p>
+	{% endfor %}
+	<h3> People you may want to poke </h3>
+	<div class='poke'>
+		<table>
+			<thead>
+				<tr>
+					<td>Name</td>
+					<td>Alias</td>
+					<td>Email Address</td>
+					<td>Poke History</td>
+					<td>Action</td>
+				</tr>
+			</thead>
+			<tbody>
+				{% for user in all_users: %}
+				<tr>
+					<td> {{ user['name'] }}</td>
+					<td> <a href="/users/show/{{ user['id'] }}"> {{ user['alias']}} </a> </td>
+					<td> {{ user['email']}}</td>
+					<td>{% for target in pokes %}
+					{% if user['id'] == target['target_id'] %}
+					 {{ target['pokecount'] }}
+					{% endif %}
+					{% endfor %}</td>
+					<td>  
+						<form action="/users/poke" method="post" onsubmit="return confirm('Poking User!');">
+						<input type="hidden" name="target_id" value="{{ user['id'] }}">
+						<input type="hidden" name="poker_id" value="{{ session['id'] }}">
+						<input type="hidden" name="poker_name" value="{{session['alias'] }}">
+							<button type="submit">Poke!</button>
+						</form>
+					</td>
+				</tr>
+				{% endfor %}
+		</tbody>
+	</table>
+
+</body>
+</html>

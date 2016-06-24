@@ -1,8 +1,73 @@
 <html>
-  <head>
-    <link rel="stylesheet" href="/static/css/styles.css" type="text/css">
-  </head>
-  <body>
-    The best place to start is the "WelcomeController.py" file in app/controllers.
-  </body>
+<head>
+ <title>Form Test Index</title>
+ <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='jquery-ui.css') }}">
+ <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
+ <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+ <script>
+    $(function() {
+        $( "#tabs" ).tabs();
+    });
+</script>
+</head>
+<body>
+  <h1>Pokes!</h1>
+  <div id="tabs">
+    <ul>
+        <li><a href="#login">Login</a></li>
+        <li><a href="#register">Register</a></li>
+    </ul>
+    <div id="login">
+        <div class='errors'>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <ul class=flashes>
+                {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% endwith %}
+        </div>
+        
+        <h1> Sign In </h1>
+        <form action="/users/login" method="POST">
+            <h3> Email Address:</h3>
+            <input type="text" name="email">
+            <h3>Password:</h3>
+            <input type="password" name="password">
+            <input type="submit" value="Sign In">
+        </form>
+    </div>
+    <div id="register">
+        <div class='errors'>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <ul class=flashes>
+                {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% endwith %}
+        </div>
+        <div>
+        <h1> Register</h1>
+        <form action="/users/add" method="POST">
+            <h3> Name:</h3>
+            <input type="text" name="name">
+            <h3> Alias:</h3>
+            <input type="text" name="alias">
+            <h3> Email Address:</h3>
+            <input type="text" name="email">
+            <h3>Password:</h3>
+            <input type="password" name="password">
+            <h3>  Password Confirmation:</h3>
+            <input type="password" name="confirmation">
+            <h3> Date of Birth:</h3>
+            <input type="date" name="dateofbirth">
+            <input type="submit" value="Register">
+        </div>
+    </div>
+</body>
 </html>
